@@ -1,0 +1,21 @@
+Vite React Threejs Gsap using Portfolio website
+Refer site https://johndoeey.com
+https://jsmastery.pro/video-kit/c9dc559b-2d8d-453b-9671-edb8d0e63e3a
+
+npm create vite@latest  ./
+
+rafce
+
+Add npm packages
+npm install gsap @gsap/react three @react-three/fiber @react-three/drei @react-three/postprocessing
+npm install tailwindcss @tailwindcss/vite
+
+
+create GLB 3D Models
+ Go to site skesketchfab.com
+ Blender 3D and 2d
+
+Go to cd public/models follder to file select below cmd press
+npx gltfjsx optimized-room.glb
+
+glb convet to jsx file move to component follder Room.jsx
