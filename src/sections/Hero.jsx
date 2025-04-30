@@ -2,8 +2,28 @@ import React from "react";
 import { words } from "../constants";
 import Button from "../components/Button";
 import HeroModels from "../components/HeroModels";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
+import AnimatedCounter from "../components/AnimatedCounter";
 
 const Hero = () => {
+  useGSAP(() => {
+    gsap.fromTo(
+      ".hero-text h1",
+      {
+        y: 50,
+        opacity: 0,
+      },
+      {
+        y: 0,
+        opacity: 1,
+        stagger: 0.6,
+        duration: 1,
+        ease: "power2.inOut",
+      }
+    );
+  });
+
   return (
     <section id="hero" className="relative outline-hidden">
       <div className="absolute top-0 left-0 z-10">
@@ -12,16 +32,16 @@ const Hero = () => {
 
       <div className="hero-layout">
         {/* left content */}
-        <header className="flex flex-col justify-center md:w-full w-screen md:px-20 px-5">
+        <div className="flex flex-col justify-center md:w-full w-screen md:px-20 px-5">
           <div className="flex flex-col gap-6">
             <div className="hero-text">
               <h1>
                 Shaping
                 <span className="slide">
                   <span className="wrapper">
-                    {words.map((word) => (
+                    {words.map((word, index) => (
                       <span
-                        key={word.text}
+                        key={`${word.text}-${index}`}
                         className="flex items-center md:gap-3 gap-1 pb-2"
                       >
                         <img
@@ -48,7 +68,7 @@ const Hero = () => {
               text="See my work"
             />
           </div>
-        </header>
+        </div>
         {/* right content */}
 
         <figure>
@@ -57,6 +77,7 @@ const Hero = () => {
           </div>
         </figure>
       </div>
+      <AnimatedCounter />
     </section>
   );
 };
