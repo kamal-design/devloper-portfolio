@@ -19,3 +19,13 @@ Go to cd public/models follder to file select below cmd press
 npx gltfjsx optimized-room.glb
 
 glb convet to jsx file move to component follder Room.jsx
+
+
+3D Models on Tech Iocns
+
+=> Load a `.glb' model (GLTF Format)
+=> Adds basic lighting
+=> Applies environment reflections for realism
+=> wraps the model in a floating animation
+=> Optionally tweaks the material (like setting a white color on a specific mesh)
+=> Disables zoom using OrbitControls
