@@ -10,7 +10,6 @@ Add npm packages
 npm install gsap @gsap/react three @react-three/fiber @react-three/drei @react-three/postprocessing
 npm install tailwindcss @tailwindcss/vite
 
-
 create GLB 3D Models
  Go to site skesketchfab.com
  Blender 3D and 2d
@@ -31,6 +30,36 @@ glb convet to jsx file move to component follder Room.jsx
 => Disables zoom using OrbitControls
 
 
+3D Models Computer Table
+
+Go to cd public/models
+
+NEXT choose file
+npx gltfjsx computer-optimized.glb -T
+
+Add emails
+https://dashboard.emailjs.com/admin
+
+Create new Service
+
+=> select Gmail
+=> copy service Id in env add
+then connect email
+
+
+Create Email Template
+simple contact form
+=> settings to copy Template ID to env file add
+
+
+Go to Account
+=> Copy to public key to env file add
+
+
+
+
+
+
 
 
 Add Junie to component
@@ -38,3 +67,4 @@ Add Junie to component
 cmd + shift + p
 
 Create a new section called contact import it within the app and within use the classNames that we typically wrap all of our sections within and also add a title header component right within that says something about contacting us.
+[]
