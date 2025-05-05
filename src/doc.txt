@@ -29,3 +29,12 @@ glb convet to jsx file move to component follder Room.jsx
 => wraps the model in a floating animation
 => Optionally tweaks the material (like setting a white color on a specific mesh)
 => Disables zoom using OrbitControls
+
+
+
+
+Add Junie to component
+
+cmd + shift + p
+
+Create a new section called contact import it within the app and within use the classNames that we typically wrap all of our sections within and also add a title header component right within that says something about contacting us.
