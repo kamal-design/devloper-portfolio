@@ -15,6 +15,14 @@ const navLinks = [
     name: "Testimonials",
     link: "#testimonials",
   },
+  {
+    name: "Gsap",
+    link: "/gsap",
+  },
+  {
+    name: "Framer",
+    link: "/framer",
+  },
 ];
 
 const words = [
