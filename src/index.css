@@ -10,11 +10,6 @@ body {
   font-family: "Mona Sans", sans-serif;
   @apply w-dvw overflow-x-hidden scroll-smooth text-white bg-black;
 }
-
-section {
-  @apply w-dvw;
-}
-
 @theme {
   --font-sans: "Mona Sans", sans-serif;
   --color-white-50: #d9ecff;
