@@ -22,12 +22,12 @@ const GalleryScrolltrigger = () => {
       let slice = (2 * Math.PI) / total;
 
       images.forEach((item, i) => {
-        let angle = i * slice;
+        let angle = -i * slice;
         let x = center + radius * Math.sin(angle);
         let y = center + radius * Math.cos(angle);
 
         gsap.set(item, {
-          rotation: angle + "-rad",
+          rotation: `${-(angle + Math.PI)}rad`,
           xPercent: -50,
           yPercent: -50,
           x: x,
@@ -106,11 +106,6 @@ const GalleryScrolltrigger = () => {
           {galleryPath.map((item, index) => (
             <div key={`item_${index}`} className="wheel_card">
               <img src={item.profile} alt={item.title} />
-            </div>
-          ))}
-          {galleryPath.map((data, idx) => (
-            <div key={`data_${idx}`} className="wheel_card">
-              <img src={data.profile} alt={data.title} />
             </div>
           ))}
         </div>

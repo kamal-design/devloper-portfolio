@@ -505,7 +505,7 @@ body {
   }
 
   .human-gallery {
-    @apply h-[600vh] w-full;
+    @apply h-[300vh] w-full;
     .gallery-header {
       @apply fixed top-0 left-0 w-full h-[75vh] flex items-center justify-center cursor-pointer;
        h1 {
@@ -519,9 +519,9 @@ body {
         @apply absolute top-0 left-1/2 flex items-center justify-center w-[300vw] h-[300vh] max-w-[2000px] max-h-[2000px];
 
         .wheel_card {
-          @apply absolute top-0 left-0 w-[10%] max-w-[200px] aspect-square cursor-pointer;
+          @apply absolute top-0 left-0 w-[12%] max-w-[300px] aspect-square cursor-pointer border border-solid border-gray-700 rounded-xl p-2.5;
           img {
-            @apply w-full pointer-events-none z-[999] cursor-pointer;
+            @apply w-full pointer-events-none z-[999] cursor-pointer rounded-lg;
           }
         }
       }
