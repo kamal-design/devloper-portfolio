@@ -1,10 +1,15 @@
 import React from "react";
 import ParallexScroll from "../components/gsap/ParallexScroll";
 import VisitorsObsessOver from "../components/gsap/VisitorsObsessOver";
+import GalleryScrolltrigger from "../components/gsap/GalleryScrolltrigger";
+import SectionChanage from "../components/gsap/SectionChanage";
 
 const GsapPage = () => {
   return (
     <section className="relative section-padding max-w-7xl mx-auto">
+      <SectionChanage />
+
+      {/* <GalleryScrolltrigger /> */}
       <VisitorsObsessOver />
       <div className="py-20">
         <h2 className="text-2xl font-bold text-center mb-4">GSAP Examples</h2>
