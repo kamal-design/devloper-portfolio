@@ -591,7 +591,7 @@ body {
 }
 
 .cursor-img {
-  @apply absolute size-full opacity-20;
+  @apply absolute max-w-full h-full w-max opacity-20 bg-cover object-center m-auto;
 }
 
 .cursortrail-container {

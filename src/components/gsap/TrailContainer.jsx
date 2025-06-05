@@ -24,10 +24,11 @@ const TrailContainer = () => {
       easing: "cubic-bezier(0.87, 0, 0.13, 1)",
     };
 
-    const trailImageCount = 20;
+    const trailImageCount = 8; // folder your images count add more images
+    // This creates paths like `profile-01.jpg`, `profile-10.jpg`, etc. `/images/profiles/profile-0${i + 1}.jpg`
     const images = Array.from(
       { length: trailImageCount },
-      (_, i) => `/images/profiles/profile-0${i + 1}.jpg`
+      (_, i) => `/images/profiles/profile-${String(i + 1).padStart(2, "0")}.jpg`
     );
 
     const trailContainer = trailContainerRef.current;
@@ -35,17 +36,10 @@ const TrailContainer = () => {
 
     isDesktopRef.current = window.innerWidth > 1000;
 
-    const mathUtils = {
-      lerp: (a, b, n) => (1 - n) * a + n * b,
-      distance: (x1, y1, x2, y2) => Math.hypot(x2 - x1, y2 - y1),
-    };
-
     const getMouseDistance = () =>
-      mathUtils.distance(
-        mousePosRef.current.x,
-        mousePosRef.current.y,
-        lastMousePosRef.current.x,
-        lastMousePosRef.current.y
+      Math.hypot(
+        mousePosRef.current.x - lastMousePosRef.current.x,
+        mousePosRef.current.y - lastMousePosRef.current.y
       );
 
     const isInTrailContainer = (x, y) => {
@@ -65,7 +59,7 @@ const TrailContainer = () => {
       const startX = interpolatedMousePosRef.current.x - rect.left - 87.5;
       const startY = interpolatedMousePosRef.current.y - rect.top - 87.5;
       const targetX = mousePosRef.current.x - rect.left - 87.5;
-      const targetY = mousePosRef.current.y - rect.left - 87.5;
+      const targetY = mousePosRef.current.y - rect.top - 87.5;
 
       imgContainer.style.left = `${startX}px`;
       imgContainer.style.top = `${startY}px`;
@@ -81,6 +75,8 @@ const TrailContainer = () => {
         const imageLayer = document.createElement("div");
         imageLayer.classList.add("image-layer");
         imageLayer.style.backgroundImage = `url(${imgSrc})`;
+        imageLayer.style.backgroundSize = "100% 100%";
+        imageLayer.style.backgroundPosition = `50% ${-i * 100}%`;
 
         const startY = i * 10;
         const endY = (i + 1) * 10;
@@ -102,7 +98,7 @@ const TrailContainer = () => {
 
         maskLayers.forEach((layer, i) => {
           const startY = i * 10;
-          const endY = i * 1 * 10;
+          const endY = (i + 1) * 10;
           const distanceFromMiddle = Math.abs(i - 4.5);
           const delay = distanceFromMiddle * config.straggerIn;
 
@@ -116,7 +112,7 @@ const TrailContainer = () => {
         element: imgContainer,
         maskLayers: maskLayers,
         imageLayers: imageLayers,
-        removeTime: Date.now() * config.imageLifespan,
+        removeTime: Date.now() + config.imageLifespan,
       });
     };
 
@@ -181,6 +177,8 @@ const TrailContainer = () => {
       animationStateRef.current = requestAnimationFrame(render);
     };
 
+    let cleanupMouseListener = null;
+
     const startAnimation = () => {
       if (!isDesktopRef.current) return;
 
@@ -214,17 +212,20 @@ const TrailContainer = () => {
       const wasDesktop = isDesktopRef.current;
       isDesktopRef.current = window.innerWidth > 1000;
 
-      if (!isDesktopRef.current && !wasDesktop) {
+      // FIX 5: Corrected resize logic.
+      if (isDesktopRef.current && !wasDesktop) {
+        // Switched from mobile to desktop: start the animation.
         cleanupMouseListener = startAnimation();
       } else if (!isDesktopRef.current && wasDesktop) {
+        // Switched from desktop to mobile: stop the animation.
         stopAnimation();
         if (cleanupMouseListener) {
           cleanupMouseListener();
+          cleanupMouseListener = null;
         }
       }
     };
 
-    let cleanupMouseListener = null;
     window.addEventListener("resize", handleResize);
 
     if (isDesktopRef.current) {
@@ -236,14 +237,15 @@ const TrailContainer = () => {
       if (cleanupMouseListener) {
         cleanupMouseListener();
       }
-
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   return (
-    <div ref={trailContainerRef} className="cursortrail-container">
-      TrailContainer
+    <div ref={trailContainerRef} className="cursortrail-container group">
+      <span className="opacity-0 group-hover:opacity-100 text-amber-400 text-center m-auto">
+        Trail Container
+      </span>
     </div>
   );
 };
