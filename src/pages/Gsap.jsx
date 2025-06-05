@@ -3,12 +3,14 @@ import ParallexScroll from "../components/gsap/ParallexScroll";
 import VisitorsObsessOver from "../components/gsap/VisitorsObsessOver";
 import GalleryScrolltrigger from "../components/gsap/GalleryScrolltrigger";
 import SectionChanage from "../components/gsap/SectionChanage";
+import AnimatedCursorTrail from "../components/gsap/AnimatedCursorTrail";
 
 const GsapPage = () => {
   return (
     <section className="relative section-padding max-w-7xl mx-auto">
       {/* Below ParallexScroll is some UI break error */}
       {/* <ParallexScroll /> */}
+      <AnimatedCursorTrail />
       <SectionChanage />
       {/* <GalleryScrolltrigger /> */}
       <VisitorsObsessOver />

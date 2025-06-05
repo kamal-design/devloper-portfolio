@@ -142,7 +142,7 @@ const SectionChanage = () => {
                 <img src="./images/profiles/profile-01.jpg" alt="" />
               </figure>
               <h2 className="text-2xl font-semibold text-white mb-5">
-                Frontend Developer
+                1.Frontend Developer
               </h2>
               <p className="text-sm font-normal text-white-50">
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quos
@@ -157,7 +157,7 @@ const SectionChanage = () => {
                 <img src="./images/profiles/profile-02.jpg" alt="" />
               </figure>
               <h2 className="text-2xl font-semibold text-white mb-5">
-                Backend Developer
+                2.Backend Developer
               </h2>
               <p className="text-sm font-normal text-white-50">
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quos
@@ -172,7 +172,7 @@ const SectionChanage = () => {
                 <img src="./images/profiles/profile-03.jpg" alt="" />
               </figure>
               <h2 className="text-2xl font-semibold text-white mb-5">
-                Fullstack Developer
+                3.Fullstack Developer
               </h2>
               <p className="text-sm font-normal text-white-50">
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quos
@@ -187,7 +187,7 @@ const SectionChanage = () => {
                 <img src="./images/profiles/profile-04.jpg" alt="" />
               </figure>
               <h2 className="text-2xl font-semibold text-white mb-5">
-                Product Head
+                4.Product Head
               </h2>
               <p className="text-sm font-normal text-white-50">
                 Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quos
