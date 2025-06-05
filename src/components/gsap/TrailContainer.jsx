@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { lerp } from "three/src/math/MathUtils.js";
-import { distance, element } from "three/tsl";
+import { MathUtils } from "three/src/math/MathUtils.js";
 
 const TrailContainer = () => {
   const trailContainerRef = useRef(null);
@@ -28,7 +27,7 @@ const TrailContainer = () => {
     const trailImageCount = 20;
     const images = Array.from(
       { length: trailImageCount },
-      (i, _) => `/images/profiles/profile-0${i + 1}.jpg`
+      (_, i) => `/images/profiles/profile-0${i + 1}.jpg`
     );
 
     const trailContainer = trailContainerRef.current;
@@ -56,7 +55,7 @@ const TrailContainer = () => {
 
     const createTrailImage = () => {
       const imgContainer = document.createElement("div");
-      imgContainer.classList.add(".cursor-trail-img");
+      imgContainer.classList.add("cursortrail-img");
 
       const imgSrc = images[currentImageIndexRef.current];
       currentImageIndexRef.current =
@@ -77,10 +76,10 @@ const TrailContainer = () => {
 
       for (let i = 0; i < 10; i++) {
         const layer = document.createElement("div");
-        layer.classList.add(".mask-layer");
+        layer.classList.add("mask-layer");
 
         const imageLayer = document.createElement("div");
-        imageLayer.classList.add(".image-layer");
+        imageLayer.classList.add("image-layer");
         imageLayer.style.backgroundImage = `url(${imgSrc})`;
 
         const startY = i * 10;
@@ -95,67 +94,155 @@ const TrailContainer = () => {
         maskLayers.push(layer);
         imageLayers.push(imageLayer);
       }
-
       trailContainer.appendChild(imgContainer);
+
       requestAnimationFrame(() => {
         imgContainer.style.left = `${targetX}px`;
         imgContainer.style.top = `${targetY}px`;
 
         maskLayers.forEach((layer, i) => {
-          const startX = i * 10;
+          const startY = i * 10;
           const endY = i * 1 * 10;
           const distanceFromMiddle = Math.abs(i - 4.5);
           const delay = distanceFromMiddle * config.straggerIn;
 
           setTimeout(() => {
-            layer.style.clipPath = `polygon(0% ${startX}%, 100% ${startY}%, 100% ${endY}%, 0% ${endY}%)`;
+            layer.style.clipPath = `polygon(0% ${startY}%, 100% ${startY}%, 100% ${endY}%, 0% ${endY}%)`;
           }, delay);
         });
       });
 
-      trailContainerRef.current.push({
+      trailRef.current.push({
         element: imgContainer,
         maskLayers: maskLayers,
         imageLayers: imageLayers,
-        removeTime: Date.new() * config.imageLifespan,
+        removeTime: Date.now() * config.imageLifespan,
       });
+    };
 
-      const removeOldImages = () => {
-        const now = Date.now();
-        if (trailRef.current.length === 0) return;
-        const oldestImage = trailRef.current[0];
-        if (now > oldestImage.removeTime) {
-          const imgToRemove = trailRef.current.shift();
-          imgToRemove.maskLayers.forEach((layer, i) => {
-            const startY = i * RGBA_ASTC_10x10_Format;
-            const endY = (i + 1) * 10;
-            const distanceFromEdge = 4.5 - Math.abs(i - 4.5);
-            const delay = distanceFromEdge * config.staggerOut;
+    const removeOldImages = () => {
+      const now = Date.now();
+      if (trailRef.current.length === 0) return;
+      const oldestImage = trailRef.current[0];
 
-            layer.start.transition = `clip-path ${config.outDuration}ms ${config.easing}`;
+      if (now > oldestImage.removeTime) {
+        const imgToRemove = trailRef.current.shift();
+        imgToRemove.maskLayers.forEach((layer, i) => {
+          const startY = i * 10;
+          const endY = (i + 1) * 10;
+          const distanceFromEdge = 4.5 - Math.abs(i - 4.5);
+          const delay = distanceFromEdge * config.staggerOut;
 
-            setTimeout(() => {
-              layer.style.clipPath = `polygon(50% ${startY}%, 50% ${startY}%, 50% ${endY}%, 50% ${endY}%)`;
-            }, delay);
-          });
-
-          imgToRemove.imageLayers.forEach((imageLayer) => {
-            imageLayer.style.transition = `opacity ${config.outDuration}ms ${config.easing}`;
-            imageLayer.style.opacity = "0.25";
-          });
+          layer.style.transition = `clip-path ${config.outDuration}ms ${config.easing}`;
 
           setTimeout(() => {
-            if (imgToRemove.element.parentNode) {
-              imgToRemove.element.parentNode.removeChild(imgToRemove.element);
-            }
-          }, config.outDuration + 100);
-        }
+            layer.style.clipPath = `polygon(50% ${startY}%, 50% ${startY}%, 50% ${endY}%, 50% ${endY}%)`;
+          }, delay);
+        });
+
+        imgToRemove.imageLayers.forEach((imageLayer) => {
+          imageLayer.style.transition = `opacity ${config.outDuration}ms ${config.easing}`;
+          imageLayer.style.opacity = "0.25";
+        });
+
+        setTimeout(() => {
+          if (imgToRemove.element.parentNode) {
+            imgToRemove.element.parentNode.removeChild(imgToRemove.element);
+          }
+        }, config.outDuration + 100);
+      }
+    };
+
+    const render = () => {
+      if (!isDesktopRef.current) return;
+      const distance = getMouseDistance();
+
+      interpolatedMousePosRef.current.x = MathUtils.lerp(
+        interpolatedMousePosRef.current.x || mousePosRef.current.x,
+        mousePosRef.current.x,
+        0.1
+      );
+
+      interpolatedMousePosRef.current.y = MathUtils.lerp(
+        interpolatedMousePosRef.current.y || mousePosRef.current.y,
+        mousePosRef.current.y,
+        0.1
+      );
+
+      if (
+        distance > config.mouseThreshold &&
+        isInTrailContainer(mousePosRef.current.x, mousePosRef.current.y)
+      ) {
+        createTrailImage();
+        lastMousePosRef.current = { ...mousePosRef.current };
+      }
+
+      removeOldImages();
+      animationStateRef.current = requestAnimationFrame(render);
+    };
+
+    const startAnimation = () => {
+      if (!isDesktopRef.current) return;
+
+      const handleMouseMove = (e) => {
+        mousePosRef.current = { x: e.clientX, y: e.clientY };
       };
+
+      document.addEventListener("mousemove", handleMouseMove);
+      animationStateRef.current = requestAnimationFrame(render);
+
+      return () => {
+        document.removeEventListener("mousemove", handleMouseMove);
+      };
+    };
+
+    const stopAnimation = () => {
+      if (animationStateRef.current) {
+        cancelAnimationFrame(animationStateRef.current);
+        animationStateRef.current = null;
+      }
+
+      trailRef.current.forEach((item) => {
+        if (item.element.parentNode) {
+          item.element.parentNode.removeChild(item.element);
+        }
+      });
+      trailRef.current.length = 0;
+    };
+
+    const handleResize = () => {
+      const wasDesktop = isDesktopRef.current;
+      isDesktopRef.current = window.innerWidth > 1000;
+
+      if (!isDesktopRef.current && !wasDesktop) {
+        cleanupMouseListener = startAnimation();
+      } else if (!isDesktopRef.current && wasDesktop) {
+        stopAnimation();
+        if (cleanupMouseListener) {
+          cleanupMouseListener();
+        }
+      }
+    };
+
+    let cleanupMouseListener = null;
+    window.addEventListener("resize", handleResize);
+
+    if (isDesktopRef.current) {
+      cleanupMouseListener = startAnimation();
+    }
+
+    return () => {
+      stopAnimation();
+      if (cleanupMouseListener) {
+        cleanupMouseListener();
+      }
+
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
   return (
-    <div className="trail-container" ref={trailContainerRef}>
+    <div ref={trailContainerRef} className="cursortrail-container">
       TrailContainer
     </div>
   );

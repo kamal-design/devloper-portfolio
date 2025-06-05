@@ -594,19 +594,19 @@ body {
   @apply absolute size-full opacity-20;
 }
 
-.cursor-trail-container {
+.cursortrail-container {
   z-index: 2;
   @apply absolute size-full overflow-hidden;
 }
-.cursor-trail-img {
+.cursortrail-img {
   @apply absolute size-44 pointer-events-none;
 }
 
-.cursor-trail-img .mask-layer {
+.cursortrail-img .mask-layer {
   will-change: clip-path;
   @apply absolute top-0 left-0 size-full bg-black;
 }
 
-.cursor-trail-img .mask-layer .image-layer {
+.cursortrail-img .mask-layer .image-layer {
   @apply absolute top-0 left-0 size-full bg-cover bg-center;
 }
