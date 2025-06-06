@@ -84,7 +84,7 @@ const GalleryScrolltrigger = () => {
       profile: "./images/profiles/profile-07.jpg",
     },
     {
-      title: "Tesing Lead",
+      title: "Testing Lead",
       profile: "./images/profiles/profile-08.jpg",
     },
   ];

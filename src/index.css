@@ -610,3 +610,44 @@ body {
 .cursortrail-img .mask-layer .image-layer {
   @apply absolute top-0 left-0 size-full bg-cover bg-center;
 }
+
+/* TODO: stacked Card */
+.stacked-container {
+  @apply relative w-full h-screen;
+  background: radial-gradient(at 40% 45% #e2e9f7 0, transparent 50%, radial-gradient(at 60% 50%, #eaccff 0, transparent 50%) #fff);
+
+  .stacked-content {
+    @apply absolute inset-0 size-full flex items-center;
+    padding: 0 150px 0 100px;
+    margin-top: -20px;
+
+    .text{
+      flex: 1 0 0;
+      font-size: clamb(1.1rem, 2.6vw, 1.5rem);
+      font-weight: 300;
+      line-height: 1.5;
+      margin-right: 54px;
+    }
+
+    .img-wrapper {
+      width: 400px;
+      aspect-ratio: 1/1;
+      padding: 1px;
+      border-radius: 24px;
+      border:16px solid #f8eded;
+      box-shadow: 0 13px 27px -5px rgba(50, 50,93,0.25), 0 8px 16px -8px rgba(0,0,0,0.3);
+
+      img {
+        @apply block size-100 object-cover object-center rounded-lg;
+        filter: saturate(0.9) brightness(1.05)
+      }
+    }
+  }
+
+  .stacked-content:not(:first-child) .text {
+    opacity: 0;
+  }
+  .stacked-content:not(:first-child) .img-wrapper {
+    transform: translateY(-200%);
+  }
+}
